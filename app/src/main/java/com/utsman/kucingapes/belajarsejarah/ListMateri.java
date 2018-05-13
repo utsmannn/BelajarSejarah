@@ -18,9 +18,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.utsman.kucingapes.belajarsejarah.RcConfig.ItemViewHolder;
+import com.utsman.kucingapes.belajarsejarah.RcConfig.RcGetter;
 
 public class ListMateri extends AppCompatActivity {
     private FirebaseRecyclerAdapter<RcGetter, ItemViewHolder> adapter;

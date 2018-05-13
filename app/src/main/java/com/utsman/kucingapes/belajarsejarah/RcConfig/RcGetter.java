@@ -1,6 +1,6 @@
-package com.utsman.kucingapes.belajarsejarah;
+package com.utsman.kucingapes.belajarsejarah.RcConfig;
 
-class RcGetter {
+public class RcGetter {
     private int idCat;
     private String nameCat;
     private String titleCat;

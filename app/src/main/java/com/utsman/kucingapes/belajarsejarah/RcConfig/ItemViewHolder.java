@@ -1,4 +1,4 @@
-package com.utsman.kucingapes.belajarsejarah;
+package com.utsman.kucingapes.belajarsejarah.RcConfig;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,13 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.utsman.kucingapes.belajarsejarah.R;
 
 
-class ItemViewHolder extends RecyclerView.ViewHolder {
+public class ItemViewHolder extends RecyclerView.ViewHolder {
     public View view;
     public Button button;
 
-    ItemViewHolder(View itemView) {
+    public ItemViewHolder(View itemView) {
         super(itemView);
         view = itemView;
         button = view.findViewById(R.id.btn_belajar);
