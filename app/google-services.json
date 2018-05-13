@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "307469037925",
+    "firebase_url": "https://belajarsejarah-c6274.firebaseio.com",
+    "project_id": "belajarsejarah-c6274",
+    "storage_bucket": "belajarsejarah-c6274.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307469037925:android:3378b539f9291f73",
+        "android_client_info": {
+          "package_name": "com.utsman.kucingapes.belajarsejarah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "307469037925-3alvduucan3g4d0mle1p0med9fon5imk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.utsman.kucingapes.belajarsejarah",
+            "certificate_hash": "c0de2f128a18503309166db0b03dd2a9ff178c42"
+          }
+        },
+        {
+          "client_id": "307469037925-d94hr6g9h9viqqlp1thp3vf9s4u1ogp9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRq1mhF9eMBltkuNw8TqVLAUR9P_0WMlw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "307469037925-d94hr6g9h9viqqlp1thp3vf9s4u1ogp9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
