@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.utsman.kucingapes.belajarsejarah">
+    package="com.utsman.kucingapes.mobilelearningprodisejarah">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name="com.utsman.kucingapes.mobilelearningprodisejarah.LoginActivity"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListMateri" />
-        <activity android:name=".ContentActivity" />
+        <activity android:name="com.utsman.kucingapes.mobilelearningprodisejarah.ListMateri" />
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name="com.utsman.kucingapes.mobilelearningprodisejarah.ContentActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.utsman.kucingapes.mobilelearningprodisejarah.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.utsman.kucingapes.mobilelearningprodisejarah.Brosur"
+            android:label="Profil Pendidikan Sejarah" />
+        <activity android:name="com.utsman.kucingapes.mobilelearningprodisejarah.About"/>
     </application>
 
 </manifest>

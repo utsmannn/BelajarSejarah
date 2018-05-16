@@ -8,17 +8,33 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:307469037925:android:3378b539f9291f73",
+        "mobilesdk_app_id": "1:307469037925:android:7f6e44ecd0b9571f",
         "android_client_info": {
-          "package_name": "com.utsman.kucingapes.belajarsejarah"
+          "package_name": "com.utsman.kucingapes.mobilelearningprodisejarah"
         }
       },
       "oauth_client": [
         {
-          "client_id": "307469037925-3alvduucan3g4d0mle1p0med9fon5imk.apps.googleusercontent.com",
+          "client_id": "307469037925-7va2mohtd89jadscrhopa4qn0ahhillj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.utsman.kucingapes.belajarsejarah",
+            "package_name": "com.utsman.kucingapes.mobilelearningprodisejarah",
+            "certificate_hash": "6b8e58787e5c4218ac26646424b7ed22e7cbb23c"
+          }
+        },
+        {
+          "client_id": "307469037925-ej6pf3ue1e23el1q2lp1k4mk9kkms6nf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.utsman.kucingapes.mobilelearningprodisejarah",
+            "certificate_hash": "d67eef4be601d9bc7c4d2e6f29db3b89cd658ef5"
+          }
+        },
+        {
+          "client_id": "307469037925-p9gm78u721ulak5h1ehvbqe7cgopepnl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.utsman.kucingapes.mobilelearningprodisejarah",
             "certificate_hash": "c0de2f128a18503309166db0b03dd2a9ff178c42"
           }
         },

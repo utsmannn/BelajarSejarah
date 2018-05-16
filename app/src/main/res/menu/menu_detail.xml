@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_favorite"
+        android:orderInCategory="300"
+        android:title="Favoritkan"
+        android:icon="@drawable/ic_favorite_border"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_favorite_fill"
+        android:orderInCategory="300"
+        android:title="Jangan Favoritkan"
+        android:icon="@drawable/ic_favorite"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/text_kecil"
+        android:orderInCategory="300"
+        android:title="Teks Kecil"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/text_sedang"
+        android:orderInCategory="300"
+        android:title="Teks Sedang"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/text_besar"
+        android:orderInCategory="300"
+        android:title="Teks Besar"
+        app:showAsAction="never"/>
+
+</menu>

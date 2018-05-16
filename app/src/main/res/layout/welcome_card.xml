@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:id="@+id/fkiplogo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@color/colorPrimary"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp" />
+
+        <ImageView
+            android:id="@+id/applogo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@color/colorPrimary"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:paddingRight="10dp"
+        android:paddingEnd="10dp">
+
+        <TextView
+            android:id="@+id/welcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selamat datang andakjdhsbhfbsjfbks sfsfds"
+            android:layout_gravity="start"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nikmati belajar sejarah nasional Indonesia dalam satu aplikasi!"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="start"
+            android:fontFamily="sans-serif-light"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aplikasi ini dipersembahkan oleh"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="start"
+            android:fontFamily="sans-serif-light"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Program Studi Pendidikan Sejarah \nFKIP UHAMKA"
+            android:textStyle="bold"
+            android:layout_gravity="start"
+            android:fontFamily="sans-serif-light"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="History, Fun, Education"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_gravity="start"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="italic"/>
+
+    </LinearLayout>
+
+</LinearLayout>
