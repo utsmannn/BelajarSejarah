@@ -1,0 +1,11 @@
+body {
+  padding: 2.5%;
+  line-height: 1.45;
+  text-align: justify;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}

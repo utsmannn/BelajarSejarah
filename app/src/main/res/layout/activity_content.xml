@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/coordinator"
-    tools:context=".ContentActivity"
+    tools:context=".Content.ContentActivity"
     android:fitsSystemWindows="true"
     tools:ignore="HardcodedText">
 
@@ -100,56 +100,18 @@
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
-            android:paddingBottom="20dp">
+            android:layout_marginBottom="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.bluejamesbond.text.DocumentView
-                    android:id="@+id/body"
+                <br.tiagohm.markdownview.MarkdownView
+                    android:id="@+id/markdown_view"
+                    app:escapeHtml="false"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ext:documentView_antialias="true"
-                    ext:documentView_cacheConfig="auto_quality"
-                    ext:documentView_reverse="false"
-                    ext:documentView_textAlignment="justified"
-                    ext:documentView_textFormat="plain"
-                    ext:documentView_textSubPixel="true"
-                    app:documentView_textSize="14sp"
-                    app:documentView_textColor="#808080"/>
-
-                <com.bluejamesbond.text.DocumentView
-                    android:id="@+id/body_medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ext:documentView_antialias="true"
-                    ext:documentView_cacheConfig="auto_quality"
-                    ext:documentView_reverse="false"
-                    ext:documentView_textAlignment="justified"
-                    ext:documentView_textFormat="plain"
-                    ext:documentView_textSubPixel="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:visibility="gone"
-                    app:documentView_textSize="18sp"
-                    app:documentView_textColor="#808080"/>
-
-                <com.bluejamesbond.text.DocumentView
-                    android:id="@+id/body_besar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ext:documentView_antialias="true"
-                    ext:documentView_cacheConfig="auto_quality"
-                    ext:documentView_reverse="false"
-                    ext:documentView_textAlignment="justified"
-                    ext:documentView_textFormat="plain"
-                    ext:documentView_textSubPixel="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:visibility="gone"
-                    app:documentView_textSize="22sp"
-                    app:documentView_textColor="#808080"/>
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
         </ScrollView>

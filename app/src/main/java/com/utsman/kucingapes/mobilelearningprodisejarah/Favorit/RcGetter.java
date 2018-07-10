@@ -1,4 +1,4 @@
-package com.utsman.kucingapes.mobilelearningprodisejarah.RcConfig;
+package com.utsman.kucingapes.mobilelearningprodisejarah.Favorit;
 
 public class RcGetter {
     private int idCat;

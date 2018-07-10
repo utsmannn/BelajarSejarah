@@ -11,25 +11,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.utsman.kucingapes.mobilelearningprodisejarah.LoginActivity"
+        <activity
+            android:name=".LoginActivity"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.utsman.kucingapes.mobilelearningprodisejarah.ListMateri" />
+        <activity android:name=".Favorit.ListFavorit" />
         <activity
-            android:name="com.utsman.kucingapes.mobilelearningprodisejarah.ContentActivity"
+            android:name=".Content.ContentActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.utsman.kucingapes.mobilelearningprodisejarah.MainActivity"
+            android:name=".OldClass.MainActivityOld"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.utsman.kucingapes.mobilelearningprodisejarah.Brosur"
+            android:name=".Brosur"
             android:label="Profil Pendidikan Sejarah" />
-        <activity android:name="com.utsman.kucingapes.mobilelearningprodisejarah.About"/>
+        <activity android:name=".About" />
+        <activity
+            android:name=".OldClass.MainActivityAwal"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ListContent"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

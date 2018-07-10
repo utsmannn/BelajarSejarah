@@ -30,6 +30,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services:12.0.1'
     implementation 'com.firebaseui:firebase-ui-auth:3.2.2'
     implementation 'com.firebaseui:firebase-ui-database:3.3.0'
+    implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -38,6 +39,7 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:1.0.6'
     implementation 'com.yarolegovich:discrete-scrollview:1.4.7'
     implementation 'com.github.bluejamesbond:textjustify-android:2.1.6'
+    implementation 'com.github.tiagohm.MarkdownView:library:0.19.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
