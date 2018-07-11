@@ -53,11 +53,6 @@ public class OpiniFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new MarginDecoration(15, MarginDecoration.VERTICAL));
         recyclerView.setAdapter(adapterContentList);
-        RecyclerView.ViewHolder p = recyclerView.findViewHolderForAdapterPosition(getId());
-        int e = p.getAdapterPosition();
-        //Context v = recyclerView.findViewHolderForAdapterPosition(e).itemView.getContext();
-        TextView textView = ((TextView) recyclerView.findViewHolderForAdapterPosition(e).itemView.findViewById(R.id.body_sub));
-        textView.setVisibility(View.GONE);
         preData();
 
         return view;
@@ -74,7 +69,8 @@ public class OpiniFragment extends Fragment {
                     String imgUrl = ds.child("img").getValue(String.class);
                     String cat = ds.child("author").getValue(String.class);
                     String body = ds.child("body").getValue(String.class);
-                    addData(title, imgUrl, cat, body);
+                    Integer id = ds.child("id").getValue(int.class);
+                    addData(title, imgUrl, cat, body, id);
 
                 }
             }
@@ -86,8 +82,8 @@ public class OpiniFragment extends Fragment {
         });
     }
 
-    private void addData(String title, String imgUrl, String cat, String body) {
-        ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body);
+    private void addData(String title, String imgUrl, String cat, String body, Integer id) {
+        ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body, id);
         lists.add(contentList);
         adapterContentList.notifyDataSetChanged();
     }

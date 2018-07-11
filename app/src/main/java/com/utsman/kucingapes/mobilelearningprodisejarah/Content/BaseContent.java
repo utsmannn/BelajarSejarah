@@ -48,8 +48,11 @@ public class BaseContent extends AppCompatActivity {
             img = bundle.getString("img");
             title = bundle.getString("title");
             kategori = bundle.getString("kategori");
-            kategori = kategori.replaceAll("[~]", "\n\n");
-            kategori = kategori.replaceAll("[$]", "\n");
+            if (kategori != null) {
+                kategori = kategori.replaceAll("[~]", "\n\n");
+                kategori = kategori.replaceAll("[$]", "\n");
+
+            }
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -72,6 +75,7 @@ public class BaseContent extends AppCompatActivity {
 
         textJudul.setText(title);
         textSubtitle.setText(kategori);
+        //textSubtitle.setText(String.valueOf(id));
 
         collapsingToolbarLayout.setTitle(title);
         collapsingToolbarLayout.setCollapsedTitleTextColor(

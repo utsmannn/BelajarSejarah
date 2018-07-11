@@ -66,7 +66,8 @@ public class ListContent extends AppCompatActivity {
                     String imgUrl = ds.child("img").getValue(String.class);
                     String cat = ds.child("cat").getValue(String.class);
                     String body = ds.child("body").getValue(String.class);
-                    addData(title, imgUrl, cat, body);
+                    Integer id = ds.child("id").getValue(int.class);
+                    addData(title, imgUrl, cat, body, id);
 
                     final List<ModelContentList> filterList = filter(lists, category);
                     adapterContentList.setFilter(filterList);
@@ -104,8 +105,8 @@ public class ListContent extends AppCompatActivity {
         return filteredModelList;
     }*/
 
-    private void addData(String title, String imgUrl, String cat, String body) {
-        ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body);
+    private void addData(String title, String imgUrl, String cat, String body, Integer id) {
+        ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body, id);
         lists.add(contentList);
         adapterContentList.notifyDataSetChanged();
     }

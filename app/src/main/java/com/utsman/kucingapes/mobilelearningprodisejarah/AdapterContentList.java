@@ -48,6 +48,7 @@ public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.
                 intent.putExtra("img", contentList.getImgUrl());
                 intent.putExtra("title", contentList.getTitle());
                 intent.putExtra("kategori", contentList.getCat());
+                intent.putExtra("id", contentList.getId());
                 context.startActivity(intent);
             }
         });

@@ -55,7 +55,7 @@ public class ListFavorit extends AppCompatActivity {
 
     private void setupDatabase() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("data");
+                .child("data-md");
         databaseReference.keepSynced(true);
         TextView empty = findViewById(R.id.empty);
         recyclerView_materi.hasFixedSize();
@@ -83,7 +83,7 @@ public class ListFavorit extends AppCompatActivity {
                         intent.putExtra("body", model.getBody());
                         intent.putExtra("kategori", kat);
                         intent.putExtra("title", model.getTitle());
-                        //intent.putExtra("id", id);
+                        intent.putExtra("id", model.getId());
                         startActivity(intent);
                     }
                 });
