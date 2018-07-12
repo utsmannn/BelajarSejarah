@@ -9,6 +9,11 @@
             android:id="@+id/nav_fav"
             android:icon="@drawable/ic_favorite"
             android:title="Materi Favorit" />
+
+        <item
+            android:id="@+id/nav_fav_op"
+            android:icon="@drawable/ic_favorite"
+            android:title="Opini Favorit" />
     </group>
 
     <group android:checkableBehavior="single"
@@ -29,10 +34,6 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_android"
             android:title="Tentang Aplikasi" />
-        <item
-            android:id="@+id/nav_exit"
-            android:icon="@drawable/ic_action_export"
-            android:title="Logout" />
     </group>
 
 </menu>

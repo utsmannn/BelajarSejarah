@@ -1,4 +1,4 @@
-package com.utsman.kucingapes.mobilelearningprodisejarah;
+package com.utsman.kucingapes.mobilelearningprodisejarah.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Content.ContentActivity;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Content.ModelContentList;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelContentList;
+import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.
     public void setFilter(List<ModelContentList> filterModels) {
         lists = new ArrayList<>();
         lists.addAll(filterModels);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     public class Holder extends RecyclerView.ViewHolder {

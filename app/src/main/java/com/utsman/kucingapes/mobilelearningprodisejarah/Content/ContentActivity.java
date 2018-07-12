@@ -1,5 +1,6 @@
 package com.utsman.kucingapes.mobilelearningprodisejarah.Content;
 
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,12 @@ import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 public class ContentActivity extends BaseContent {
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setDataMateri();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);
         fav = menu.findItem(R.id.action_favorite);
@@ -22,9 +29,6 @@ public class ContentActivity extends BaseContent {
         fav.setVisible(false);
         favFill.setVisible(false);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRef = database.getReference().child("data-md").child(String.valueOf(id));
-        mRef.keepSynced(true);
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

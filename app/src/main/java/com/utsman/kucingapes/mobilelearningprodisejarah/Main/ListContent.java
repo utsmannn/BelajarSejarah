@@ -1,5 +1,6 @@
-package com.utsman.kucingapes.mobilelearningprodisejarah;
+package com.utsman.kucingapes.mobilelearningprodisejarah.Main;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +13,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Content.ModelContentList;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Adapter.AdapterContentList;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelContentList;
+import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 import com.utsman.kucingapes.mobilelearningprodisejarah.RcConfig.MarginDecoration;
 
 import java.util.ArrayList;
@@ -21,17 +24,20 @@ import java.util.List;
 public class ListContent extends AppCompatActivity {
     private List<ModelContentList> lists = new ArrayList<>();
     private AdapterContentList adapterContentList;
+    /* private String category, title, imgUrl, cat, body;
+     private Integer id;*/
     private String category;
     private FirebaseUser user;
     private FirebaseAuth auth;
     private String nameUser;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_content);
 
-        RecyclerView recyclerView = findViewById(R.id.content_list);
+        recyclerView = findViewById(R.id.content_list);
         adapterContentList = new AdapterContentList(lists);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -53,11 +59,19 @@ public class ListContent extends AppCompatActivity {
         if (bundle != null) {
             category = bundle.getString("cat");
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapterContentList.notifyDataSetChanged();
+            }
+        }, 500);
     }
 
     private void preData() {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("data-md");
+        myRef.keepSynced(true);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -68,6 +82,7 @@ public class ListContent extends AppCompatActivity {
                     String body = ds.child("body").getValue(String.class);
                     Integer id = ds.child("id").getValue(int.class);
                     addData(title, imgUrl, cat, body, id);
+                    //addData();
 
                     final List<ModelContentList> filterList = filter(lists, category);
                     adapterContentList.setFilter(filterList);
@@ -108,6 +123,11 @@ public class ListContent extends AppCompatActivity {
     private void addData(String title, String imgUrl, String cat, String body, Integer id) {
         ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body, id);
         lists.add(contentList);
-        adapterContentList.notifyDataSetChanged();
     }
+
+    /*private void addData() {
+        ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body, id);
+        lists.add(contentList);
+    }*/
+
 }

@@ -1,4 +1,4 @@
-package com.utsman.kucingapes.mobilelearningprodisejarah.Content;
+package com.utsman.kucingapes.mobilelearningprodisejarah.Model;
 
 public class ModelContentList {
     private String title;

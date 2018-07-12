@@ -16,9 +16,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.utsman.kucingapes.mobilelearningprodisejarah.AdapterCategory;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Adapter.AdapterCategory;
 import com.utsman.kucingapes.mobilelearningprodisejarah.RcConfig.MarginDecoration;
-import com.utsman.kucingapes.mobilelearningprodisejarah.ModelCategory;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelCategory;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 
 import java.util.ArrayList;

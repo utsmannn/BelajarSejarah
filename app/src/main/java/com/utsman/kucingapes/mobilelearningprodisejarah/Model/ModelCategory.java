@@ -1,4 +1,4 @@
-package com.utsman.kucingapes.mobilelearningprodisejarah;
+package com.utsman.kucingapes.mobilelearningprodisejarah.Model;
 
 public class ModelCategory {
     private String titleCat;

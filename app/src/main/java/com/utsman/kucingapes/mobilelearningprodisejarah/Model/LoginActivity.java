@@ -1,4 +1,4 @@
-package com.utsman.kucingapes.mobilelearningprodisejarah;
+package com.utsman.kucingapes.mobilelearningprodisejarah.Model;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -26,7 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.utsman.kucingapes.mobilelearningprodisejarah.OldClass.MainActivityAwal;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Main.MainActivity;
+import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 
 public class LoginActivity extends AppCompatActivity {
     private int RC_SIGN_IN = 9001;

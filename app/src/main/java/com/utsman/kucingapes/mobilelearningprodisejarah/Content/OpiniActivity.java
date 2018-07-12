@@ -1,5 +1,6 @@
 package com.utsman.kucingapes.mobilelearningprodisejarah.Content;
 
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 
 public class OpiniActivity extends BaseContent {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setDataOpini();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,7 +66,7 @@ public class OpiniActivity extends BaseContent {
         String n = "false";
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRef = database.getReference().child("data-md").child(String.valueOf(id));
+        DatabaseReference mRef = database.getReference().child("opini").child(String.valueOf(id));
 
         switch (item.getItemId()) {
             case R.id.action_favorite:

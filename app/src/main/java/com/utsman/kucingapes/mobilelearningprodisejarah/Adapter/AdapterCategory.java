@@ -1,4 +1,4 @@
-package com.utsman.kucingapes.mobilelearningprodisejarah;
+package com.utsman.kucingapes.mobilelearningprodisejarah.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Main.ListContent;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelCategory;
+import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 
 import java.util.List;
 

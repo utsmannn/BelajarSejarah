@@ -33,9 +33,14 @@ public class BaseContent extends AppCompatActivity {
     public CoordinatorLayout coordinatorLayout;
     public MarkdownView markdownView;
     public WebSettings settings;
+    public ImageView imgHeader;
+    public TextView textJudul, textSubtitle;
     public int small = 12;
     public int medium = 15;
     public int large = 18;
+
+    public FirebaseDatabase database;
+    public DatabaseReference mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,40 +49,23 @@ public class BaseContent extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             id = bundle.getInt("id");
-            body = bundle.getString("body");
-            img = bundle.getString("img");
-            title = bundle.getString("title");
-            kategori = bundle.getString("kategori");
-            if (kategori != null) {
-                kategori = kategori.replaceAll("[~]", "\n\n");
-                kategori = kategori.replaceAll("[$]", "\n");
-
-            }
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ImageView imgHeader = findViewById(R.id.imgHeader);
+        imgHeader = findViewById(R.id.imgHeader);
         coordinatorLayout = findViewById(R.id.coordinator);
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
-        TextView textJudul = findViewById(R.id.title_colapse);
-        TextView textSubtitle = findViewById(R.id.subtitle_detail);
+        textJudul = findViewById(R.id.title_colapse);
+        textSubtitle = findViewById(R.id.subtitle_detail);
 
         markdownView = findViewById(R.id.markdown_view);
         settings = markdownView.getSettings();
 
-        Glide.with(this)
-                .load(img)
-                .into(imgHeader);
-
-        textJudul.setText(title);
-        textSubtitle.setText(kategori);
-        //textSubtitle.setText(String.valueOf(id));
-
-        collapsingToolbarLayout.setTitle(title);
         collapsingToolbarLayout.setCollapsedTitleTextColor(
                 ContextCompat.getColor(this, R.color.text));
         collapsingToolbarLayout.setExpandedTitleColor(
@@ -93,7 +81,6 @@ public class BaseContent extends AppCompatActivity {
                 nameUser = nameUser.replaceAll("\\s", "-");
             }
         }
-        setupBody();
     }
 
     public void setupBody() {
@@ -107,36 +94,27 @@ public class BaseContent extends AppCompatActivity {
         settings.setDefaultFontSize(medium);
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
-        fav = menu.findItem(R.id.action_favorite);
-        favFill = menu.findItem(R.id.action_favorite_fill);
-
-        fav.setVisible(false);
-        favFill.setVisible(false);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRef = database.getReference().child("data-md").child(String.valueOf(id));
+    public void setDataMateri() {
+        database = FirebaseDatabase.getInstance();
+        mRef = database.getReference().child("data-md").child(String.valueOf(id));
         mRef.keepSynced(true);
+
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild("userfavorit/"+nameUser)) {
-                    String statusFav = dataSnapshot.child("userfavorit/"+nameUser).getValue(String.class);
+                body = dataSnapshot.child("body").getValue(String.class);
+                img = dataSnapshot.child("img").getValue(String.class);
+                title = dataSnapshot.child("title").getValue(String.class);
+                kategori = dataSnapshot.child("cat").getValue(String.class);
 
-                    if (statusFav != null) {
-                        if (statusFav.equals("false")) {
-                            fav.setVisible(true);
-                            favFill.setVisible(false);
-                        } if (statusFav.equals("true")) {
-                            fav.setVisible(false);
-                            favFill.setVisible(true);
-                        }
-                    }
-                } else {
-                    fav.setVisible(true);
-                }
+                textJudul.setText(title);
+                textSubtitle.setText(kategori);
+
+                Glide.with(getApplicationContext())
+                        .load(img)
+                        .into(imgHeader);
+
+                setupBody();
             }
 
             @Override
@@ -144,43 +122,40 @@ public class BaseContent extends AppCompatActivity {
 
             }
         });
-        return true;
-    }*/
+    }
 
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        String y = "true";
-        String n = "false";
+    public void setDataOpini() {
+        database = FirebaseDatabase.getInstance();
+        mRef = database.getReference().child("opini").child(String.valueOf(id));
+        mRef.keepSynced(true);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRef = database.getReference().child("data").child(String.valueOf(id));
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                body = dataSnapshot.child("body").getValue(String.class);
+                img = dataSnapshot.child("img").getValue(String.class);
+                title = dataSnapshot.child("title").getValue(String.class);
+                kategori = dataSnapshot.child("author").getValue(String.class);
 
-        switch (item.getItemId()) {
-            case R.id.action_favorite:
-                Snackbar favSnack = Snackbar.make(coordinatorLayout, "Ditambahkan ke Favorit", Snackbar.LENGTH_LONG);
-                favSnack.show();
-                mRef.child("userfavorit/"+nameUser).setValue(y);
-                return true;
-            case R.id.action_favorite_fill:
-                Snackbar favSnackRem = Snackbar.make(coordinatorLayout, "Dihapus dari Favorit", Snackbar.LENGTH_LONG);
-                favSnackRem.show();
-                mRef.child("userfavorit/"+nameUser).setValue(n);
-                return true;
-            case R.id.text_kecil:
-                settings.setDefaultFontSize(small);
-                return true;
-            case R.id.text_sedang:
-                settings.setDefaultFontSize(medium);
-                return true;
-            case R.id.text_besar:
-                settings.setDefaultFontSize(large);
-                return true;
-            case android.R.id.home:
-                onBackPressed();
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
+                if (kategori != null) {
+                    kategori = kategori.replaceAll("[$]", "\n");
+                }
+
+                textJudul.setText(title);
+                textSubtitle.setText(kategori);
+
+                Glide.with(getApplicationContext())
+                        .load(img)
+                        .into(imgHeader);
+
+                setupBody();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }
