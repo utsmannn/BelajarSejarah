@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Main.ListContent;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Activity.ListContent;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelCategory;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 

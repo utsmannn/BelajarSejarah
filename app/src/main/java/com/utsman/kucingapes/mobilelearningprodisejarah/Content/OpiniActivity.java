@@ -10,13 +10,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Adapter.AdapterOpiniList;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Main.MainActivity;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelContentList;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Activity.MainActivity;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class OpiniActivity extends BaseContent {
 
