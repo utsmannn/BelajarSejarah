@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -74,8 +75,10 @@ public class OpiniFragment extends Fragment {
     }
 
     private void preData() {
+        final ProgressBar progressBar = view.findViewById(R.id.progbar);
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        RecyclerView recyclerView = view.findViewById(R.id.opini_list);
+        final RecyclerView recyclerView = view.findViewById(R.id.opini_list);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -100,14 +103,11 @@ public class OpiniFragment extends Fragment {
 
                 }
 
-                /*if (adapterOpiniList.getItemCount() == 0) {
-                    adapterOpiniList.notifyDataSetChanged();
-                }*/
-                //for (adapterOpiniList.getItemCount() == 0) {
-
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                         adapterOpiniList.notifyDataSetChanged();
                     }
                 }, 500);

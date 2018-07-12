@@ -6,9 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".Main.ListContent">
 
+    <ProgressBar
+        android:id="@+id/progbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="50dp"/>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/content_list"/>
+        android:id="@+id/content_list"
+        android:visibility="gone"/>
 
 </RelativeLayout>

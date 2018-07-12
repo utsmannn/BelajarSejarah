@@ -2,14 +2,17 @@ package com.utsman.kucingapes.mobilelearningprodisejarah.Content;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,6 +94,10 @@ public class BaseContent extends AppCompatActivity {
         markdownView.addStyleSheet(ExternalStyleSheet.fromAsset("style.css", null));
         markdownView.loadMarkdown(body);
         settings.setDefaultFontSize(medium);
+
+        ProgressBar progressBar = findViewById(R.id.progbar);
+        //progressBar.setVisibility(View.GONE);
+        markdownView.setVisibility(View.VISIBLE);
     }
 
     public void setDataMateri() {
@@ -118,6 +125,7 @@ public class BaseContent extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
+
         });
     }
 

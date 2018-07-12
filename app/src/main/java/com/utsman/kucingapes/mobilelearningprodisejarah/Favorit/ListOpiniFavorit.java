@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -65,6 +66,10 @@ public class ListOpiniFavorit extends BaseFavorit {
                 return new ItemViewHolder(view);
             }
         };
+
+        ProgressBar progressBar = findViewById(R.id.progbar);
+        progressBar.setVisibility(View.GONE);
+        recyclerView_materi.setVisibility(View.VISIBLE);
 
         recyclerView_materi.setEmptyView(empty);
         recyclerView_materi.addItemDecoration(new MarginDecoration(15, MarginDecoration.VERTICAL));

@@ -5,10 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".Favorit.ListFavorit">
 
+    <ProgressBar
+        android:id="@+id/progbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="50dp"/>
+
     <com.utsman.kucingapes.mobilelearningprodisejarah.RcConfig.EmptyRecyclerView
         android:id="@+id/recycler_materi"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/empty"

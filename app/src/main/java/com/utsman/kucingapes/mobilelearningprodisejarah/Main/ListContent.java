@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +27,7 @@ import java.util.List;
 public class ListContent extends AppCompatActivity {
     private List<ModelContentList> lists = new ArrayList<>();
     private AdapterContentList adapterContentList;
+    private RecyclerView recyclerView;
 
     private String category;
 
@@ -33,7 +36,7 @@ public class ListContent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_content);
 
-        RecyclerView recyclerView = findViewById(R.id.content_list);
+        recyclerView = findViewById(R.id.content_list);
         adapterContentList = new AdapterContentList(lists);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -78,6 +81,10 @@ public class ListContent extends AppCompatActivity {
                     adapterContentList.setFilter(filterList);
 
                 }
+
+                ProgressBar progressBar = findViewById(R.id.progbar);
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -132,7 +134,7 @@ public class SearchActivity extends AppCompatActivity {
         myRef.keepSynced(true);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String title = ds.child("title").getValue(String.class);
                     String imgUrl = ds.child("img").getValue(String.class);
@@ -142,6 +144,11 @@ public class SearchActivity extends AppCompatActivity {
                     addData(title, imgUrl, cat, body, id);
 
                 }
+
+                ProgressBar progressBar = findViewById(R.id.progbar);
+                progressBar.setVisibility(View.GONE);
+                NestedScrollView scrollView = findViewById(R.id.nested);
+                scrollView.setVisibility(View.VISIBLE);
             }
 
             private void addData(String title, String imgUrl, String cat, String body, Integer id) {
@@ -172,7 +179,7 @@ public class SearchActivity extends AppCompatActivity {
         myRef.keepSynced(true);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String title = ds.child("title").getValue(String.class);
                     String imgUrl = ds.child("img").getValue(String.class);
@@ -182,6 +189,11 @@ public class SearchActivity extends AppCompatActivity {
                     addData(title, imgUrl, cat, body, id);
 
                 }
+
+                ProgressBar progressBar = findViewById(R.id.progbar);
+                progressBar.setVisibility(View.GONE);
+                NestedScrollView scrollView = findViewById(R.id.nested);
+                scrollView.setVisibility(View.VISIBLE);
             }
 
             private void addData(String title, String imgUrl, String cat, String body, Integer id) {
