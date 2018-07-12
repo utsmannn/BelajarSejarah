@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,11 +33,22 @@ public class SearchActivity extends AppCompatActivity {
     private List<ModelContentList> listOp = new ArrayList<>();
     private AdapterContentList adapterContentList;
     private AdapterSearch adapterOpiniList;
+    private TextView judulMateri;
+    private TextView judulOpini;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        judulMateri = findViewById(R.id.title_materi_search);
+        judulOpini = findViewById(R.id.title_opini_search);
+
+        judulMateri.setVisibility(View.GONE);
+        judulOpini.setVisibility(View.GONE);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         setupSearchMateri();
         setupSearchOpini();
@@ -69,6 +82,15 @@ public class SearchActivity extends AppCompatActivity {
 
                 adapterContentList.setFilterSearch(filterList);
                 adapterOpiniList.setFilterSearch(filterOp);
+
+                if (adapterContentList.getItemCount() >= 1) {
+                    judulMateri.setVisibility(View.VISIBLE);
+                } else judulMateri.setVisibility(View.GONE);
+
+                if (adapterOpiniList.getItemCount() >= 1) {
+                    judulOpini.setVisibility(View.VISIBLE);
+                } else judulOpini.setVisibility(View.GONE);
+
                 return true;
             }
         });
@@ -96,105 +118,6 @@ public class SearchActivity extends AppCompatActivity {
         return filteredModelList;
     }
 
-
-    /*private void setupSearchMateri(final String newText) {
-        RecyclerView recyclerView = findViewById(R.id.list_search_materi);
-        recyclerView.setNestedScrollingEnabled(false);
-        adapterContentList = new AdapterContentList(lists);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new MarginDecoration(15,
-                MarginDecoration.VERTICAL));
-        recyclerView.setAdapter(adapterContentList);
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference("data-md");
-        myRef.keepSynced(true);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String title = ds.child("title").getValue(String.class);
-                    String imgUrl = ds.child("img").getValue(String.class);
-                    String cat = ds.child("cat").getValue(String.class);
-                    String body = ds.child("body").getValue(String.class);
-                    Integer id = ds.child("id").getValue(int.class);
-                    addData(title, imgUrl, cat, body, id);
-
-                    final List<ModelContentList> filterList = filter(lists, newText);
-                    adapterContentList.setFilter(filterList);
-
-                }
-            }
-
-            private void addData(String title, String imgUrl, String cat, String body, Integer id) {
-                ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body, id);
-                lists.add(contentList);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-               // adapterContentList.notifyDataSetChanged();
-            }
-        }, 500);
-    }
-
-
-    private void setupSearchOpini(final String newText) {
-        RecyclerView recyclerView = findViewById(R.id.list_search_opini);
-        recyclerView.setNestedScrollingEnabled(false);
-        adapterOpiniList = new AdapterSearch(listOp);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new MarginDecoration(15,
-                MarginDecoration.VERTICAL));
-        recyclerView.setAdapter(adapterOpiniList);
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference("opini");
-        myRef.keepSynced(true);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String title = ds.child("title").getValue(String.class);
-                    String imgUrl = ds.child("img").getValue(String.class);
-                    String cat = ds.child("cat").getValue(String.class);
-                    String body = ds.child("author").getValue(String.class);
-                    Integer id = ds.child("id").getValue(int.class);
-                    addData(title, imgUrl, cat, body, id);
-
-                    final List<ModelContentList> filterList = filter(lists, newText);
-                    adapterContentList.setFilter(filterList);
-
-                }
-            }
-
-            private void addData(String title, String imgUrl, String cat, String body, Integer id) {
-                ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body, id);
-                listOp.add(contentList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-               // adapterOpiniList.notifyDataSetChanged();
-            }
-        }, 500);
-    }*/
-
     private void setupSearchMateri() {
         RecyclerView recyclerView = findViewById(R.id.list_search_materi);
         recyclerView.setNestedScrollingEnabled(false);
@@ -218,9 +141,6 @@ public class SearchActivity extends AppCompatActivity {
                     Integer id = ds.child("id").getValue(int.class);
                     addData(title, imgUrl, cat, body, id);
 
-                    /*final List<ModelContentList> filterList = filter(lists, newText);
-                    adapterContentList.setFilter(filterList);*/
-
                 }
             }
 
@@ -236,12 +156,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // adapterContentList.notifyDataSetChanged();
-            }
-        }, 500);
     }
 
     private void setupSearchOpini() {
@@ -267,9 +181,6 @@ public class SearchActivity extends AppCompatActivity {
                     Integer id = ds.child("id").getValue(int.class);
                     addData(title, imgUrl, cat, body, id);
 
-                 /*   final List<ModelContentList> filterList = filter(lists, newText);
-                    adapterContentList.setFilter(filterList);
-*/
                 }
             }
 
@@ -283,18 +194,22 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // adapterOpiniList.notifyDataSetChanged();
-            }
-        }, 500);
     }
 
     @Override
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
