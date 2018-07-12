@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    tools:context=".SearchActivity">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,8 +15,7 @@
             android:id="@+id/layout_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/title_materi_search"
@@ -32,7 +26,7 @@
                 android:layout_marginTop="15dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Materi"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_search_materi"
@@ -49,7 +43,7 @@
                 android:layout_marginTop="15dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Opini"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_search_opini"
@@ -61,4 +55,5 @@
 
 
     </android.support.v4.widget.NestedScrollView>
+
 </LinearLayout>

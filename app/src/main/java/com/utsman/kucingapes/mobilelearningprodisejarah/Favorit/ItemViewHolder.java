@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 
 public class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -18,17 +18,6 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
     public ItemViewHolder(View itemView) {
         super(itemView);
         view = itemView;
-        button = view.findViewById(R.id.btn_belajar);
-    }
-
-    public TextView getTvSubtitleListMateri() {
-        return tvSubtitleListMateri;
-    }
-
-    /*old*/
-    public void setTvTitleCat(String titleCat) {
-        TextView tvTitleCat = view.findViewById(R.id.title_cat);
-        tvTitleCat.setText(titleCat);
     }
 
     public void setTvTitleListMateri(String title) {
@@ -41,21 +30,10 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         tvSubtitleListMateri.setText(body);
     }
 
-    public void setImgMateri(Context context, String img) {
+    public void setImgMateri(String img) {
         ImageView imgMateri = view.findViewById(R.id.img_cont);
-        Glide.with(context)
-                .load(img)
-                .into(imgMateri);
+        Picasso.get().load(img).into(imgMateri);
     }
 
 
-
-
-    /*old*/
-    public void setImgCat (Context context, String imgCat) {
-        ImageView imgCategory = view.findViewById(R.id.img_cat);
-        Glide.with(context)
-                .load(imgCat)
-                .into(imgCategory);
-    }
 }

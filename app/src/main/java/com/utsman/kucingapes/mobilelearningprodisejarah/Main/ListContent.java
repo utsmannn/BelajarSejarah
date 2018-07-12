@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,19 +42,13 @@ public class ListContent extends AppCompatActivity {
         recyclerView.setAdapter(adapterContentList);
         preData();
 
-        /*FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-
-        if (user != null) {
-            String nameUser = user.getDisplayName();
-            if (nameUser != null) {
-                nameUser = nameUser.replaceAll("\\s", "-");
-            }
-        }*/
-
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             category = bundle.getString("cat");
+
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(category);
         }
 
         new Handler().postDelayed(new Runnable() {
@@ -78,7 +73,6 @@ public class ListContent extends AppCompatActivity {
                     String body = ds.child("body").getValue(String.class);
                     Integer id = ds.child("id").getValue(int.class);
                     addData(title, imgUrl, cat, body, id);
-                    //addData();
 
                     final List<ModelContentList> filterList = filter(lists, category);
                     adapterContentList.setFilter(filterList);
@@ -110,4 +104,15 @@ public class ListContent extends AppCompatActivity {
         lists.add(contentList);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

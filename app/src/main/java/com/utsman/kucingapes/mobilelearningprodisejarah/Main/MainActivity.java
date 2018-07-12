@@ -1,10 +1,12 @@
 package com.utsman.kucingapes.mobilelearningprodisejarah.Main;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -12,12 +14,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,15 +30,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -43,8 +41,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 import com.utsman.kucingapes.mobilelearningprodisejarah.About;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Adapter.AdapterContentList;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Adapter.AdapterOpiniList;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Adapter.AdapterSearch;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Brosur;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Favorit.ListFavorit;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Favorit.ListOpiniFavorit;
@@ -53,23 +54,26 @@ import com.utsman.kucingapes.mobilelearningprodisejarah.Fragment.OpiniFragment;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelContentList;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 import com.utsman.kucingapes.mobilelearningprodisejarah.RcConfig.MarginDecoration;
+import com.utsman.kucingapes.mobilelearningprodisejarah.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FirebaseUser user;
-    private FirebaseAuth auth;
     private NavigationView navigationView;
-    private RecyclerView searchList;
-    private SearchView searchView;
+    private ProgressDialog mProgressDialog;
 
     private List<ModelContentList> lists = new ArrayList<>();
-    private AdapterContentList adapterSearchList;
+    private AdapterOpiniList adapterOpiniList;
+    public static MainActivity mainActivity;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,7 +82,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        auth = FirebaseAuth.getInstance();
+        mainActivity = this;
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
         drawer = findViewById(R.id.drawer_layout);
@@ -97,64 +103,102 @@ public class MainActivity extends AppCompatActivity
 
         setupDrawerAccount();
         setupViewPager(viewPager);
-        setupRecyclerSearch();
-        setupDataSearch();
+
+        /*adapterOpiniList = new AdapterOpiniList(lists);
+        if (adapterOpiniList.getItemCount() == 0) {
+            showProgressDialog();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //adapterOpiniList.refresh();
+                    viewPager.invalidate();
+                    hideProgressDialog();
+                }
+            }, 3000);
+        }*/
+
+        //new Handler()
+
+        /*showProgressDialog();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideProgressDialog();
+            }
+        }, 1000);*/
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    /*@Override
+    protected void onResume() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean previouslyStarted = prefs.getBoolean("start", false);
+        if(!previouslyStarted) {
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putBoolean("start", Boolean.TRUE);
+            edit.apply();
+            recreate();
+        }
+        super.onResume();
+    }*/
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+    private void setupViewPager(ViewPager viewPager) {
+        adapterOpiniList = new AdapterOpiniList(lists);
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MateriFragment(), "Materi");
         adapter.addFragment(new OpiniFragment(), "Opini");
         viewPager.setAdapter(adapter);
 
-        Bundle bundle = getIntent().getExtras();
+        /*viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (position == 1) {
+                    Toast.makeText(getApplicationContext(), "das", Toast.LENGTH_SHORT).show();
+                    adapterOpiniList.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });*/
+
+        /*Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             int state = bundle.getInt("state");
             viewPager.setCurrentItem(state);
-        }
+        }*/
+        /*adapterOpiniList = new AdapterOpiniList(listBaseOp);
+        adapterOpiniList.notifyDataSetChanged();*/
     }
 
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } if (viewPager.getVisibility() == View.GONE && tabLayout.getVisibility() == View.GONE) {
-            viewPager.setVisibility(View.VISIBLE);
-            tabLayout.setVisibility(View.VISIBLE);
-            searchList.setVisibility(View.GONE);
-            searchView.setIconified(true);
-            adapterSearchList.clear();
-        } else {
-            super.onBackPressed();
+        }  else {
+            this.moveTaskToBack(true);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        final MenuItem item = menu.findItem(R.id.action_search);
-        searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setVisibility(View.GONE);
-                tabLayout.setVisibility(View.GONE);
-                searchList.setVisibility(View.VISIBLE);
-            }
-        });
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                viewPager.setVisibility(View.VISIBLE);
-                tabLayout.setVisibility(View.VISIBLE);
-                searchList.setVisibility(View.GONE);
-                adapterSearchList.clear();
-                return false;
-            }
-        });
-        return true;
+        /*getMenuInflater().inflate(R.menu.main, menu);*/
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.activity_search) {
+            startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -193,118 +237,37 @@ public class MainActivity extends AppCompatActivity
         TextView profilEmail = header.findViewById(R.id.email_profil);
         String url_header = "http://2.bp.blogspot.com/_vv1kmR7iUVM/TJOKIE70iZI/AAAAAAAAAB4/yAdbCCM82Ew/s1600/800px-Indonesia_declaration_of_independence_17_August_1945.jpg";
 
-        Glide.with(this)
-                .load(url_header)
-                .into(imgHeaderDrawer);
-
-        Glide.with(this)
-                .load(user.getPhotoUrl())
-                .apply(RequestOptions.circleCropTransform())
-                .into(imgProfil);
+        Picasso.get().load(url_header).into(imgHeaderDrawer);
+        Picasso.get().load(user.getPhotoUrl()).transform(new CropCircleTransformation()).into(imgProfil);
 
         profilName.setText(user.getDisplayName());
         profilEmail.setText(user.getEmail());
 
     }
-    private void setupRecyclerSearch() {
-        searchList = findViewById(R.id.list_search_materi);
-        adapterSearchList = new AdapterContentList(lists);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        searchList.setLayoutManager(layoutManager);
-        searchList.addItemDecoration(new MarginDecoration(15, MarginDecoration.VERTICAL));
-        searchList.setAdapter(adapterSearchList);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //adapterSearchList.notifyDataSetChanged();
-            }
-        }, 500);
-
-        findViewById(R.id.tess).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapterSearchList.clear();
-            }
-        });
-
-    }
 
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        /*String newText = query;
-        setupDataSearch(newText);*/
-        //setupDataSearch(query);
-        //adapterSearchList.notifyDataSetChanged();
-        //adapterSearchList.clear();
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        /*int size = lists.size();
-        lists.clear();
-        adapterSearchList.notifyItemRangeRemoved(0, size);
-        searchList.setVisibility(View.VISIBLE);*/
-        //adapterSearchList.notifyDataSetChanged();
-        final List<ModelContentList> filterList = filter(lists, newText);
-        adapterSearchList.setFilterSearch(filterList);
-        return true;
-    }
-
-    private void setupDataSearch() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference("data-md");
-        myRef.keepSynced(true);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String title = ds.child("title").getValue(String.class);
-                    String imgUrl = ds.child("img").getValue(String.class);
-                    String cat = ds.child("cat").getValue(String.class);
-                    String body = ds.child("body").getValue(String.class);
-                    Integer id = ds.child("id").getValue(int.class);
-                    addData(title, imgUrl, cat, body, id);
-
-                    /*final List<ModelContentList> filterList = filter(lists, newText);
-                    adapterSearchList.setFilterSearch(filterList);*/
-                    //adapterSearchList.notifyDataSetChanged();
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /*private void setupDataSearch(final String newText) {
-
-    }*/
-
-    private void addData(String title, String imgUrl, String cat, String body, Integer id) {
-        ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body, id);
-        lists.add(contentList);
-        //adapterSearchList.notifyDataSetChanged();
-    }
-
-    private List<ModelContentList> filter(List<ModelContentList> models, String query) {
-        query = query.toLowerCase();
-        final List<ModelContentList> filteredModelList = new ArrayList<>();
-        for (ModelContentList model : models) {
-            final String text = model.getTitle().toLowerCase();
-            if (text.contains(query)) {
-                filteredModelList.add(model);
-            }
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Memuat...");
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
         }
-        return filteredModelList;
+
+        mProgressDialog.show();
     }
 
-    private class ViewPagerAdapter extends FragmentPagerAdapter {
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    public void searchActivity(MenuItem item) {
+        startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+    }
+
+    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> fragmentList = new ArrayList<>();
         private final List<String> stringList = new ArrayList<>();
 

@@ -120,8 +120,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            showProgressDialog();
-            final DatabaseReference cDatabase = FirebaseDatabase.getInstance().getReference().child("user");
+            //showProgressDialog();
+            hideProgressDialog();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            /*final DatabaseReference cDatabase = FirebaseDatabase.getInstance().getReference().child("user");
             cDatabase.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -130,7 +134,6 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         Toast.makeText(getApplicationContext(), "Selamat datang kembali", Toast.LENGTH_SHORT).show();
                         finish();
-
                     }
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -142,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
-            });
+            });*/
         }
     }
 
@@ -158,6 +161,7 @@ public class LoginActivity extends AppCompatActivity {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage("Memuat...");
             mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
         }
 
         mProgressDialog.show();

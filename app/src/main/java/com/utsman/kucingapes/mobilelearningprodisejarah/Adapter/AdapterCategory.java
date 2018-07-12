@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Main.ListContent;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelCategory;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
@@ -47,9 +47,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
             }
         });
 
-        Glide.with(context)
-                .load(modelCategory.getImgCat())
-                .into(holder.img);
+        Picasso.get().load(modelCategory.getImgCat()).into(holder.img);
     }
 
     @Override

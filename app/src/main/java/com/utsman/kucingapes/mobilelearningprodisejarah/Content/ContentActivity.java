@@ -1,6 +1,7 @@
 package com.utsman.kucingapes.mobilelearningprodisejarah.Content;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +32,7 @@ public class ContentActivity extends BaseContent {
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild("userfavorit/"+nameUser)) {
                     String statusFav = dataSnapshot.child("userfavorit/"+nameUser).getValue(String.class);
 
@@ -50,7 +51,7 @@ public class ContentActivity extends BaseContent {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -92,5 +93,7 @@ public class ContentActivity extends BaseContent {
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+
     }
 }

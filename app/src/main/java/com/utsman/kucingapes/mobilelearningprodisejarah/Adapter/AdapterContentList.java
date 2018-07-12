@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Content.ContentActivity;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelContentList;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
@@ -22,7 +22,6 @@ import java.util.List;
 public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.Holder> {
     private List<ModelContentList> lists;
     private Context context;
-    private int pos;
 
     public AdapterContentList(List<ModelContentList> lists) {
         this.lists = lists;
@@ -38,7 +37,6 @@ public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.
 
     @Override
     public void onBindViewHolder(@NonNull final Holder holder, int position) {
-        pos = position;
         final ModelContentList contentList = lists.get(position);
         holder.title.setText(contentList.getTitle());
         holder.subtitle.setText(contentList.getBody());
@@ -47,18 +45,14 @@ public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ContentActivity.class);
-                intent.putExtra("body", contentList.getBody());
-                intent.putExtra("img", contentList.getImgUrl());
-                intent.putExtra("title", contentList.getTitle());
-                intent.putExtra("kategori", contentList.getCat());
                 intent.putExtra("id", contentList.getId());
                 context.startActivity(intent);
             }
         });
 
-        Glide.with(context)
-                .load(contentList.getImgUrl())
-                .into(holder.img);
+
+
+        Picasso.get().load(contentList.getImgUrl()).into(holder.img);
     }
 
     @Override
@@ -69,7 +63,6 @@ public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.
     public void setFilter(List<ModelContentList> filterModels) {
         lists = new ArrayList<>();
         lists.addAll(filterModels);
-        //notifyDataSetChanged();
     }
 
     public void clear() {
@@ -81,10 +74,6 @@ public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.
     public void setFilterSearch(List<ModelContentList> filterModels) {
         lists = new ArrayList<>();
         lists.addAll(filterModels);
-
-        /*int size = lists.size();
-        lists.clear();
-        notifyItemRangeRemoved(0, size);*/
         notifyDataSetChanged();
     }
 

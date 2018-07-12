@@ -10,7 +10,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Adapter.AdapterOpiniList;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Main.MainActivity;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelContentList;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OpiniActivity extends BaseContent {
 
@@ -19,6 +25,7 @@ public class OpiniActivity extends BaseContent {
         super.onCreate(savedInstanceState);
         setDataOpini();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,5 +102,12 @@ public class OpiniActivity extends BaseContent {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //MainActivity mainActivity = new MainActivity();
+        this.finish();
+        MainActivity.mainActivity.recreate();
     }
 }

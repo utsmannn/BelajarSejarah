@@ -14,7 +14,6 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Content.ContentActivity;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Content.OpiniActivity;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 import com.utsman.kucingapes.mobilelearningprodisejarah.RcConfig.MarginDecoration;
@@ -45,11 +44,9 @@ public class ListOpiniFavorit extends BaseFavorit {
         adapter = new FirebaseRecyclerAdapter<RcGetter, ItemViewHolder>(recyclerOptions) {
             @Override
             protected void onBindViewHolder(@NonNull final ItemViewHolder holder, int position, @NonNull final RcGetter model) {
-                //final String kat = String.valueOf(holder.getTvSubtitleListMateri().getText());
-                final String kat = model.getTitleCat();
                 holder.setTvTitleListMateri(model.getTitle());
                 holder.setTvSubtitleListMateri(model.getBody());
-                holder.setImgMateri(getBaseContext(), model.getImg());
+                holder.setImgMateri(model.getImg());
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

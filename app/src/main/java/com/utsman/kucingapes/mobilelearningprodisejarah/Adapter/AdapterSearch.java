@@ -12,32 +12,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelContentList;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Content.OpiniActivity;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelContentList;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterOpiniList extends RecyclerView.Adapter<AdapterOpiniList.Holder> {
+public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.Holder> {
     private List<ModelContentList> lists;
     private Context context;
 
-    public AdapterOpiniList(List<ModelContentList> lists) {
+    public AdapterSearch(List<ModelContentList> lists) {
         this.lists = lists;
-        setHasStableIds(true);
     }
 
     @NonNull
     @Override
-    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterSearch.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
         context = parent.getContext();
-        return new Holder(view);
+        return new AdapterSearch.Holder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final Holder holder, int position) {
+    public void onBindViewHolder(@NonNull final AdapterSearch.Holder holder, int position) {
         final ModelContentList contentList = lists.get(position);
         holder.title.setText(contentList.getTitle());
         holder.subtitle.setText(contentList.getBody());
@@ -55,31 +54,14 @@ public class AdapterOpiniList extends RecyclerView.Adapter<AdapterOpiniList.Hold
     }
 
     @Override
-    public long getItemId(int position) {
-        //return getItemId(position);
-        return position;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
-
-    @Override
     public int getItemCount() {
         return lists.size();
     }
 
     public void clear() {
-        final int size = lists.size();
-        lists.clear();
-        notifyItemRangeRemoved(0, size);
-    }
-
-    /*public void clear() {
         int size = lists.size();
         notifyItemRangeRemoved(0, size);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     public void setFilter(List<ModelContentList> filterModels) {
@@ -91,12 +73,7 @@ public class AdapterOpiniList extends RecyclerView.Adapter<AdapterOpiniList.Hold
         lists = new ArrayList<>();
         lists.addAll(filterModels);
         notifyDataSetChanged();
-    }*/
-
-    public int leng(){
-        return lists.size();
     }
-
 
     public class Holder extends RecyclerView.ViewHolder {
         public CardView cardView;

@@ -1,19 +1,17 @@
 package com.utsman.kucingapes.mobilelearningprodisejarah.Content;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 
 import br.tiagohm.markdownview.MarkdownView;
@@ -110,9 +109,7 @@ public class BaseContent extends AppCompatActivity {
                 textJudul.setText(title);
                 textSubtitle.setText(kategori);
 
-                Glide.with(getApplicationContext())
-                        .load(img)
-                        .into(imgHeader);
+                Picasso.get().load(img).into(imgHeader);
 
                 setupBody();
             }
@@ -144,9 +141,7 @@ public class BaseContent extends AppCompatActivity {
                 textJudul.setText(title);
                 textSubtitle.setText(kategori);
 
-                Glide.with(getApplicationContext())
-                        .load(img)
-                        .into(imgHeader);
+                Picasso.get().load(img).into(imgHeader);
 
                 setupBody();
             }
@@ -157,5 +152,4 @@ public class BaseContent extends AppCompatActivity {
             }
         });
     }
-
 }

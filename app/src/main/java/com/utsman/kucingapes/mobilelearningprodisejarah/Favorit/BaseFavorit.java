@@ -1,33 +1,20 @@
 package com.utsman.kucingapes.mobilelearningprodisejarah.Favorit;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Content.ContentActivity;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 import com.utsman.kucingapes.mobilelearningprodisejarah.RcConfig.EmptyRecyclerView;
-import com.utsman.kucingapes.mobilelearningprodisejarah.RcConfig.MarginDecoration;
 
+@SuppressLint("Registered")
 public class BaseFavorit extends AppCompatActivity {
-    private FirebaseRecyclerAdapter<RcGetter, ItemViewHolder> adapter;
 
     public EmptyRecyclerView recyclerView_materi;
-    public String nameKategori, nameUser;
+    public String nameUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
