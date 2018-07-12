@@ -22,6 +22,7 @@ import java.util.List;
 public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.Holder> {
     private List<ModelContentList> lists;
     private Context context;
+    private int pos;
 
     public AdapterContentList(List<ModelContentList> lists) {
         this.lists = lists;
@@ -37,6 +38,7 @@ public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.
 
     @Override
     public void onBindViewHolder(@NonNull final Holder holder, int position) {
+        pos = position;
         final ModelContentList contentList = lists.get(position);
         holder.title.setText(contentList.getTitle());
         holder.subtitle.setText(contentList.getBody());
@@ -68,6 +70,22 @@ public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.
         lists = new ArrayList<>();
         lists.addAll(filterModels);
         //notifyDataSetChanged();
+    }
+
+    public void clear() {
+        int size = lists.size();
+        notifyItemRangeRemoved(0, size);
+        notifyDataSetChanged();
+    }
+
+    public void setFilterSearch(List<ModelContentList> filterModels) {
+        lists = new ArrayList<>();
+        lists.addAll(filterModels);
+
+        /*int size = lists.size();
+        lists.clear();
+        notifyItemRangeRemoved(0, size);*/
+        notifyDataSetChanged();
     }
 
     public class Holder extends RecyclerView.ViewHolder {

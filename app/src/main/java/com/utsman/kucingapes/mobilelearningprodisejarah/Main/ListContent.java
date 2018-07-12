@@ -24,36 +24,32 @@ import java.util.List;
 public class ListContent extends AppCompatActivity {
     private List<ModelContentList> lists = new ArrayList<>();
     private AdapterContentList adapterContentList;
-    /* private String category, title, imgUrl, cat, body;
-     private Integer id;*/
+
     private String category;
-    private FirebaseUser user;
-    private FirebaseAuth auth;
-    private String nameUser;
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_content);
 
-        recyclerView = findViewById(R.id.content_list);
+        RecyclerView recyclerView = findViewById(R.id.content_list);
         adapterContentList = new AdapterContentList(lists);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new MarginDecoration(15, MarginDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new MarginDecoration(15,
+                MarginDecoration.VERTICAL));
         recyclerView.setAdapter(adapterContentList);
         preData();
 
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        /*FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
 
         if (user != null) {
-            nameUser = user.getDisplayName();
+            String nameUser = user.getDisplayName();
             if (nameUser != null) {
                 nameUser = nameUser.replaceAll("\\s", "-");
             }
-        }
+        }*/
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -109,25 +105,9 @@ public class ListContent extends AppCompatActivity {
         return filteredModelList;
     }
 
-   /* private List<ModelContentList> filterFavorit(List<ModelContentList> models) {
-        final List<ModelContentList> filteredModelList = new ArrayList<>();
-        for (ModelContentList model : models) {
-            final String text = "userfavorit/"+nameUser;
-            if (text.contains("true")) {
-                filteredModelList.add(model);
-            }
-        }
-        return filteredModelList;
-    }*/
-
     private void addData(String title, String imgUrl, String cat, String body, Integer id) {
         ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body, id);
         lists.add(contentList);
     }
-
-    /*private void addData() {
-        ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body, id);
-        lists.add(contentList);
-    }*/
 
 }

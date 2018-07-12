@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -35,25 +38,38 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.utsman.kucingapes.mobilelearningprodisejarah.About;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Adapter.AdapterContentList;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Brosur;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Favorit.ListFavorit;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Favorit.ListOpiniFavorit;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Fragment.MateriFragment;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Fragment.OpiniFragment;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Model.ModelContentList;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
+import com.utsman.kucingapes.mobilelearningprodisejarah.RcConfig.MarginDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
     private DrawerLayout drawer;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FirebaseUser user;
     private FirebaseAuth auth;
     private NavigationView navigationView;
+    private RecyclerView searchList;
+    private SearchView searchView;
+
+    private List<ModelContentList> lists = new ArrayList<>();
+    private AdapterContentList adapterSearchList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +97,8 @@ public class MainActivity extends AppCompatActivity
 
         setupDrawerAccount();
         setupViewPager(viewPager);
+        setupRecyclerSearch();
+        setupDataSearch();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -101,6 +119,12 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } if (viewPager.getVisibility() == View.GONE && tabLayout.getVisibility() == View.GONE) {
+            viewPager.setVisibility(View.VISIBLE);
+            tabLayout.setVisibility(View.VISIBLE);
+            searchList.setVisibility(View.GONE);
+            searchView.setIconified(true);
+            adapterSearchList.clear();
         } else {
             super.onBackPressed();
         }
@@ -110,8 +134,26 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        //setupSearch(searchView);
+        searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setVisibility(View.GONE);
+                tabLayout.setVisibility(View.GONE);
+                searchList.setVisibility(View.VISIBLE);
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                viewPager.setVisibility(View.VISIBLE);
+                tabLayout.setVisibility(View.VISIBLE);
+                searchList.setVisibility(View.GONE);
+                adapterSearchList.clear();
+                return false;
+            }
+        });
         return true;
     }
 
@@ -163,6 +205,103 @@ public class MainActivity extends AppCompatActivity
         profilName.setText(user.getDisplayName());
         profilEmail.setText(user.getEmail());
 
+    }
+    private void setupRecyclerSearch() {
+        searchList = findViewById(R.id.list_search_materi);
+        adapterSearchList = new AdapterContentList(lists);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        searchList.setLayoutManager(layoutManager);
+        searchList.addItemDecoration(new MarginDecoration(15, MarginDecoration.VERTICAL));
+        searchList.setAdapter(adapterSearchList);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //adapterSearchList.notifyDataSetChanged();
+            }
+        }, 500);
+
+        findViewById(R.id.tess).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterSearchList.clear();
+            }
+        });
+
+    }
+
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        /*String newText = query;
+        setupDataSearch(newText);*/
+        //setupDataSearch(query);
+        //adapterSearchList.notifyDataSetChanged();
+        //adapterSearchList.clear();
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        /*int size = lists.size();
+        lists.clear();
+        adapterSearchList.notifyItemRangeRemoved(0, size);
+        searchList.setVisibility(View.VISIBLE);*/
+        //adapterSearchList.notifyDataSetChanged();
+        final List<ModelContentList> filterList = filter(lists, newText);
+        adapterSearchList.setFilterSearch(filterList);
+        return true;
+    }
+
+    private void setupDataSearch() {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference("data-md");
+        myRef.keepSynced(true);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String title = ds.child("title").getValue(String.class);
+                    String imgUrl = ds.child("img").getValue(String.class);
+                    String cat = ds.child("cat").getValue(String.class);
+                    String body = ds.child("body").getValue(String.class);
+                    Integer id = ds.child("id").getValue(int.class);
+                    addData(title, imgUrl, cat, body, id);
+
+                    /*final List<ModelContentList> filterList = filter(lists, newText);
+                    adapterSearchList.setFilterSearch(filterList);*/
+                    //adapterSearchList.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /*private void setupDataSearch(final String newText) {
+
+    }*/
+
+    private void addData(String title, String imgUrl, String cat, String body, Integer id) {
+        ModelContentList contentList = new ModelContentList(title, imgUrl, cat, body, id);
+        lists.add(contentList);
+        //adapterSearchList.notifyDataSetChanged();
+    }
+
+    private List<ModelContentList> filter(List<ModelContentList> models, String query) {
+        query = query.toLowerCase();
+        final List<ModelContentList> filteredModelList = new ArrayList<>();
+        for (ModelContentList model : models) {
+            final String text = model.getTitle().toLowerCase();
+            if (text.contains(query)) {
+                filteredModelList.add(model);
+            }
+        }
+        return filteredModelList;
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
