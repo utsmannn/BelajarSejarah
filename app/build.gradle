@@ -7,8 +7,8 @@ android {
         applicationId "com.utsman.kucingapes.mobilelearningprodisejarah"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 8
-        versionName "3.0"
+        versionCode 11
+        versionName "3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

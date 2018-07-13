@@ -1,9 +1,11 @@
 package com.utsman.kucingapes.mobilelearningprodisejarah.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -22,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,6 +37,8 @@ import com.squareup.picasso.Picasso;
 import com.utsman.kucingapes.mobilelearningprodisejarah.About;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Adapter.AdapterOpiniList;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Brosur;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Content.ContentActivity;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Content.OpiniActivity;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Favorit.ListFavorit;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Favorit.ListOpiniFavorit;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Fragment.MateriFragment;
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity
 
     private List<ModelContentList> lists = new ArrayList<>();
     private AdapterOpiniList adapterOpiniList;
+    @SuppressLint("StaticFieldLeak")
     public static MainActivity mainActivity;
 
     private String brosur;
@@ -72,6 +78,8 @@ public class MainActivity extends AppCompatActivity
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+
+        settingIfNotif();
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -103,7 +111,34 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+    }
 
+    private void settingIfNotif() {
+        if (getIntent().getExtras() != null) {
+            final String node = getIntent().getStringExtra("node");
+            String id = getIntent().getStringExtra("id");
+            final int idPost = Integer.valueOf(id);
+            showProgressDialog();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressDialog();
+                    if (node.equals("data-md")) {
+                        Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
+                        intent.putExtra("id", idPost);
+                        startActivity(intent);
+                        finish();
+                    } if (node.equals("opini")) {
+                        Intent intent = new Intent(getApplicationContext(), OpiniActivity.class);
+                        intent.putExtra("id", idPost);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            }, 1000);
+
+            //Toast.makeText(getApplicationContext(), node+", "+String.valueOf(idPost), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {

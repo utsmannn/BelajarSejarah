@@ -38,13 +38,33 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        setMessagingSubs();
-
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setTitle("");
         SignInButton signInButton = findViewById(R.id.sign_in_button);
 
-         String nah = getIntent().getStringExtra("out");
+       /* String nah = getIntent().getStringExtra("out");
+        if (nah == null) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        }
+
+        if (nah != null && nah.equals("out")) {
+            FirebaseDatabase.getInstance();
+        }*/
+
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        // [START initialize_auth]
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
+
+        String nah = getIntent().getStringExtra("out");
         if (nah == null) {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
@@ -53,27 +73,12 @@ public class LoginActivity extends AppCompatActivity {
             FirebaseDatabase.getInstance();
         }
 
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        // [START initialize_auth]
-        mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
-
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
             }
         });
-    }
-
-    private void setMessagingSubs() {
-        FirebaseMessaging.getInstance().subscribeToTopic("data");
     }
 
     private void signIn() {
