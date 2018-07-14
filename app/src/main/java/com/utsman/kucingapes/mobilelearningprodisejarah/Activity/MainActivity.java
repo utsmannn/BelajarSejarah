@@ -5,14 +5,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -24,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,9 +36,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.utsman.kucingapes.mobilelearningprodisejarah.About;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Adapter.AdapterOpiniList;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Brosur;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Content.ContentActivity;
-import com.utsman.kucingapes.mobilelearningprodisejarah.Content.OpiniActivity;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Favorit.ListFavorit;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Favorit.ListOpiniFavorit;
 import com.utsman.kucingapes.mobilelearningprodisejarah.Fragment.MateriFragment;
@@ -79,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         FirebaseAuth auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
-        settingIfNotif();
+        //settingIfNotif();
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -111,34 +108,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-    }
-
-    private void settingIfNotif() {
-        if (getIntent().getExtras() != null) {
-            final String node = getIntent().getStringExtra("node");
-            String id = getIntent().getStringExtra("id");
-            final int idPost = Integer.valueOf(id);
-            showProgressDialog();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    hideProgressDialog();
-                    if (node.equals("data-md")) {
-                        Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
-                        intent.putExtra("id", idPost);
-                        startActivity(intent);
-                        finish();
-                    } if (node.equals("opini")) {
-                        Intent intent = new Intent(getApplicationContext(), OpiniActivity.class);
-                        intent.putExtra("id", idPost);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            }, 1000);
-
-            //Toast.makeText(getApplicationContext(), node+", "+String.valueOf(idPost), Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -186,15 +155,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(getApplicationContext(), ListOpiniFavorit.class));
 
         } else if (id == R.id.nav_profil) {
-            //startActivity(new Intent(this, Brosur.class));
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(brosur));
-            startActivity(intent);
+            String data = brosur;
+            setupOpenLink(data);
 
         } else if (id == R.id.nav_web) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://fkip.uhamka.ac.id/pendidikan-sejarah"));
-            startActivity(intent);
+            String data = "https://fkip.uhamka.ac.id/pendidikan-sejarah";
+            setupOpenLink(data);
 
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(this, About.class));
@@ -203,6 +169,16 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setupOpenLink(String data) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary));
+        builder.addDefaultShareMenuItem();
+        builder.setShowTitle(true);
+
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(MainActivity.this, Uri.parse(data));
     }
 
     private void setupDrawerAccount() {

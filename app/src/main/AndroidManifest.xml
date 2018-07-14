@@ -15,10 +15,9 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id"/>
-        <activity
-            android:name=".Activity.LoginActivity">
-        </activity>
+            android:value="@string/default_notification_channel_id" />
+
+        <activity android:name=".Activity.LoginActivity" />
         <activity
             android:name=".Favorit.ListFavorit"
             android:label="Materi Favorit" />
@@ -31,9 +30,6 @@
         <activity
             android:name=".Content.OpiniActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Brosur"
-            android:label="Profil Pendidikan Sejarah" />
         <activity android:name=".About" />
         <activity android:name=".Activity.ListContent" />
         <activity

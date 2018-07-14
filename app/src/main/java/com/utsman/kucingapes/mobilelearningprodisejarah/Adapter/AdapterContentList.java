@@ -50,8 +50,6 @@ public class AdapterContentList extends RecyclerView.Adapter<AdapterContentList.
             }
         });
 
-
-
         Picasso.get().load(contentList.getImgUrl()).into(holder.img);
     }
 

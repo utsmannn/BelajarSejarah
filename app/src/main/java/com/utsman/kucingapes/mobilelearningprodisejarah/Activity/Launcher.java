@@ -16,6 +16,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 
 public class Launcher extends AppCompatActivity {
+    String type, node, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class Launcher extends AppCompatActivity {
             }
         }
 
-        if (getIntent().getExtras() != null) {
+        /*if (getIntent().getExtras() != null) {
             for (String key : getIntent().getExtras().keySet()) {
                 String value = getIntent().getExtras().getString(key);
 
@@ -56,7 +57,7 @@ public class Launcher extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-                    }, 4000);
+                    }, 2000);
                 }
 
                 if (key.equals("type") && value.equals("app")) {
@@ -67,7 +68,9 @@ public class Launcher extends AppCompatActivity {
                 }
 
             }
-        } else {
+        }
+
+        if (getIntent().getExtras() == null) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -75,9 +78,29 @@ public class Launcher extends AppCompatActivity {
                     finish();
                 }
             }, 4000);
-        }
+        }*/
 
         //setMessagingSubs();
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            type = bundle.getString("type");
+            node = bundle.getString("node");
+            id = bundle.getString("id");
+        }
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.putExtra("type", type);
+                intent.putExtra("node", node);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+            }
+        }, 4000);
 
         getSupportActionBar().setTitle("");
         getSupportActionBar().setElevation(0);

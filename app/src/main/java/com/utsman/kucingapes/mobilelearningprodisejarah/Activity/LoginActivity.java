@@ -2,6 +2,8 @@ package com.utsman.kucingapes.mobilelearningprodisejarah.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +25,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Content.ContentActivity;
+import com.utsman.kucingapes.mobilelearningprodisejarah.Content.OpiniActivity;
 import com.utsman.kucingapes.mobilelearningprodisejarah.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -32,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     public ProgressDialog mProgressDialog;
+    private String type;
+    private String node;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         SignInButton signInButton = findViewById(R.id.sign_in_button);
 
-       /* String nah = getIntent().getStringExtra("out");
-        if (nah == null) {
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        }
-
-        if (nah != null && nah.equals("out")) {
-            FirebaseDatabase.getInstance();
-        }*/
-
-        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        setOpenMarket();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -79,6 +77,24 @@ public class LoginActivity extends AppCompatActivity {
                 signIn();
             }
         });
+    }
+
+    private void setOpenMarket() {
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                String value = getIntent().getExtras().getString(key);
+
+                if (value != null && key.equals("type") && value.equals("app")) {
+                    final String appPackageName = getPackageName();
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException gueganteng) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                    }
+                    finish();
+                }
+            }
+        }
     }
 
     private void signIn() {
@@ -128,30 +144,56 @@ public class LoginActivity extends AppCompatActivity {
         if (user != null) {
             //showProgressDialog();
             hideProgressDialog();
+
+            if (getIntent().getExtras() != null) {
+
+                //type = getIntent().getStringExtra("type");
+                node = getIntent().getStringExtra("node");
+                id = getIntent().getIntExtra("id", 0);
+
+                for (String key : getIntent().getExtras().keySet()) {
+                    String value = getIntent().getExtras().getString(key);
+
+                    if (value != null && key.equals("type") && value.equals("materi")) {
+
+                        if (node.equals("data-md")) {
+                            showProgressDialog();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hideProgressDialog();
+                                    Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
+                                    intent.putExtra("id", id);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }, 500);
+                        }
+
+                        if (node.equals("opini")) {
+                            showProgressDialog();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hideProgressDialog();
+                                    Intent intent = new Intent(getApplicationContext(), OpiniActivity.class);
+                                    intent.putExtra("id", id);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }, 500);
+                        }
+
+                        Intent intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            }
+
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
-            /*final DatabaseReference cDatabase = FirebaseDatabase.getInstance().getReference().child("user");
-            cDatabase.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(getApplicationContext(), "Selamat datang kembali", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });*/
         }
     }
 

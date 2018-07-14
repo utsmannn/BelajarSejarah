@@ -1,6 +1,7 @@
 package com.utsman.kucingapes.mobilelearningprodisejarah.Activity;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -66,7 +67,7 @@ public class ListContent extends AppCompatActivity {
         myRef.keepSynced(true);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String title = ds.child("title").getValue(String.class);
                     String imgUrl = ds.child("img").getValue(String.class);
@@ -86,7 +87,7 @@ public class ListContent extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
