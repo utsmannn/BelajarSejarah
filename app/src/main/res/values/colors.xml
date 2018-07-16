@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#c1041d</color>
     <color name="colorAccent">#4640ff</color>
 
-    <color name="tint_red">#fc3d50</color>
+    <color name="tint_red">#af39070c</color>
+    <color name="tint_red_fab">#ff2c42</color>
 
     <color name="text">#fff</color>
     <color name="trans">#00ffffff</color>

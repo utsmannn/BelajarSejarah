@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ext="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
@@ -102,8 +101,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff">
+                android:layout_height="wrap_content">
 
                 <ProgressBar
                     android:id="@+id/progbar"
@@ -138,7 +136,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_share"
-        app:backgroundTint="@color/tint_red"
+        app:backgroundTint="@color/tint_red_fab"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
 
