@@ -1,5 +1,6 @@
 package com.utsman.kucingapes.mobilelearningprodisejarah.Content;
 
+import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -20,6 +22,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -187,22 +190,16 @@ public class BaseContent extends AppCompatActivity {
 
                     String titleShare = title;
                     String subShare = kategori;
-                    String bodyShare = body;
+                    final String bodyShare = body;
                     final String allShare = titleShare + "\n" + "Oleh: " + subShare + "\n\n" + bodyShare;
 
                     fabShare = findViewById(R.id.fab_share);
                     fabShare.setOnClickListener(new View.OnClickListener() {
+                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
                         @Override
                         public void onClick(View v) {
 
-                            //Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                            //Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
-                            /*Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
-                            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                            startActivity(launchBrowser);*/
-                            //startActivity(sharingIntent);
-
-                            List<Intent> targetedShareIntents = new ArrayList<>();
+                            /*List<Intent> targetedShareIntents = new ArrayList<>();
                             Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                             shareIntent.setType("text/plain");
                             List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(shareIntent, 0);
@@ -211,10 +208,7 @@ public class BaseContent extends AppCompatActivity {
                                     String packageName = resolveInfo.activityInfo.packageName;
                                     Intent targetedShareIntent = new Intent(android.content.Intent.ACTION_SEND);
                                     targetedShareIntent.setType("text/plain");
-                                    if (TextUtils.equals(packageName, "com.whatsapp")) {
-                                        /*Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
-                                        targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);*/
-                                        //startActivity(targetedShareIntent);
+                                    if (packageName.equals("com.whatsapp")) {
                                         Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
                                         Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
                                         startActivity(launchBrowser);
@@ -227,84 +221,79 @@ public class BaseContent extends AppCompatActivity {
                                 Intent chooserIntent = Intent.createChooser(targetedShareIntents.remove(0), "Select app to share");
                                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetedShareIntents.toArray(new Parcelable[targetedShareIntents.size()]));
                                 startActivity(chooserIntent);
-                            }
-
-                            /*Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                            sharingIntent.setType("text/plain");
-                            //sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, allShare);
-                            //startActivity(Intent.createChooser(sharingIntent, "Bagikan"));
-                            Intent chose = new Intent(Intent.createChooser(sharingIntent, "bagikan"));
-                            //if (chose.resolveActivity(getPackageName().equals("com.whatsapp")))
-                            //if (chose.resolveActivityInfo()
-                            ResolveInfo info = info.activityInfo.packageName.equals("com.whatsapp");
-                            if (sharingIntent.resolveActivityInfo("")
+                            }*/
 
 
-                            final List<ResolveInfo> resolveInfos = getPackageManager().queryIntentActivities (sharingIntent, 0);
-                            for (ResolveInfo info: resolveInfos) {
-                                if (info.activityInfo.packageName.equals("com.whatsapp")) {
-                                    Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
-                                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, uriUrl);
-                                    startActivity(sharingIntent);
-                                } else {
-                                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
-                                    //startActivity(sharingIntent);
-                                    startActivity(Intent.createChooser(sharingIntent, "Bagikan"));
-                                }
-                            }
-
-                            //startActivity(sharingIntent);
-
-
-                            //if (sharingIntent.resolveActivityInfo(getPackageManager())
-                            //startActivity(Intent.createChooser(sharingIntent, "Bagikan"));
-
-                            // convert intentList to array
-                            *//*LabeledIntent[] extraIntents = intentList.toArray( new LabeledIntent[ intentList.size() ]);
-
-                            openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
-                            startActivity(openInChooser);*//*
-
-                            *//*Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
-                            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                            startActivity(launchBrowser);*//*
-
-                            *//*final Intent i = new Intent(Intent.ACTION_SEND);
-                            i.setType("text/plain");
-                            i.putExtra(Intent.EXTRA_TEXT,"text");
-
-                            final List<ResolveInfo> activities = getPackageManager().queryIntentActivities (i, 0);
-
-                            for (ResolveInfo info : activities) {
-                                if (info.activityInfo.packageName.equals("com.whatsapp")) {
-
-                                    Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
-                                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                                    startActivity(launchBrowser);
-                                } else {
-                                    i.setPackage(info.activityInfo.packageName);
-                                    startActivity(i);
-                                }
-
-                            }*//*
-
-                           *//* AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                            builder.setTitle("Complete Action using...");
-                            builder.setItems(appNames.toArray(new CharSequence[appNames.size()]), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int item) {
-                                    ResolveInfo info = activities.get(item);
-                                    if (info.activityInfo.packageName.equals("com.whatsapp")) {
-
-                                        Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
-                                        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                                        startActivity(launchBrowser);
+                            /*List<Intent> shareIntentsLists = new ArrayList<>();
+                            Intent shareIntent = new Intent();
+                            shareIntent.setAction(Intent.ACTION_SEND);
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                            shareIntent.setType("text/plain");
+                            List<ResolveInfo> resInfos = getPackageManager().queryIntentActivities(shareIntent, 0);
+                            if (!resInfos.isEmpty()) {
+                                for (ResolveInfo resInfo : resInfos) {
+                                    String packageName = resInfo.activityInfo.packageName;
+                                    if (!packageName.toLowerCase().contains("com.whatsapp")) {
+                                        Intent intent = new Intent();
+                                        intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
+                                        intent.setAction(Intent.ACTION_SEND);
+                                        intent.setType("image/*");
+                                        intent.setPackage(packageName);
+                                        shareIntentsLists.add(intent);
+                                        *//*Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
+                                        Intent intent = new Intent();
+                                        intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
+                                        intent.setAction(Intent.ACTION_VIEW);
+                                        intent.setType("text/plain");
+                                        intent.setPackage(packageName);
+                                        shareIntentsLists.add(intent);*//*
                                     }
-
-                                    // start the selected activity
-                                    i.setPackage(info.activityInfo.packageName);
-                                    startActivity(i);
                                 }
-                            });*/
+                                if (!shareIntentsLists.isEmpty()) {
+                                    Intent chooserIntent = Intent.createChooser(shareIntentsLists.remove(0), "Choose app to share");
+                                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntentsLists.toArray(new Parcelable[]{}));
+                                    startActivity(chooserIntent);
+                                } else
+                                    Log.e("Error", "No Apps can perform your task");
+
+                            }*/
+
+                            List<Intent> targetedShareIntents = new ArrayList<>();
+                            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            //shareIntent.setType("text/plain");
+                            shareIntent.setType("text/*");
+                            List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(shareIntent, 0);
+                            if (!resInfo.isEmpty()) {
+                                for (ResolveInfo resolveInfo : resInfo) {
+                                    String packageName = resolveInfo.activityInfo.packageName;
+                                    //Intent targetedShareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                                    Intent targetedShareIntent = new Intent();
+                                    //targetedShareIntent.setType("text/*");
+                                    targetedShareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "subject to be shared");
+                                    if (TextUtils.equals(packageName, "com.whatsapp")) {
+                                        //targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, bodyShare);
+                                        //shareIntent.setType("text/plain");
+                                        targetedShareIntent.setAction(Intent.ACTION_VIEW);
+                                        Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
+                                        targetedShareIntent.setData(uriUrl);
+                                        /*Uri uriUrl = Uri.parse("whatsapp://send?text="+body+"");
+                                        targetedShareIntent.putExtra(Intent.ACTION_VIEW, uriUrl);
+                                        Intent i = new Intent(Intent.ACTION_VIEW);
+                                        i.setData(uriUrl);
+                                        startActivity(i);*/
+                                    } else {
+                                        targetedShareIntent.setAction(Intent.ACTION_SEND);
+                                        targetedShareIntent.setType("text/plain");
+                                        targetedShareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "text message to shared");
+                                    }
+                                    targetedShareIntent.setPackage(packageName);
+                                    targetedShareIntents.add(targetedShareIntent);
+                                }
+                                Intent chooserIntent = Intent.createChooser(targetedShareIntents.remove(0), "Select app to share");
+                                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetedShareIntents.toArray(new Parcelable[targetedShareIntents.size()]));
+                                startActivity(chooserIntent);
+                            }
+
                         }
                     });
                 }
